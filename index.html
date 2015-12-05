@@ -1,0 +1,86 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Color Thief</title>
+
+  <meta name="description" content="Get the dominant color or color palette from an image.">
+  <meta name="author" content="Lokesh Dhakar">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+        *{
+            box-sizing: border-box;
+        }
+        #colorList{
+            padding: 10px;
+            text-align: center;
+        }
+        .section{
+            padding-top: 80px;
+            text-align: center;
+            width: 100%;
+            height: 600px;
+            padding: 
+        }
+         .main-image{
+            width: 500px;
+            margin: 0 auto;
+            line-height: 0;
+        }
+        .color-block{
+            width:52px;
+            display:inline-block;
+            height:50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <img class="main-image" src="img/image1.jpg">
+        <div id="colorList"></div>
+    </div>
+    <div class="section">
+        <img class="main-image" src="img/image2.jpg">
+        <div id="colorList"></div>
+    </div>
+    <div class="section">
+        <img class="main-image" src="img/image3.jpg">
+        <div id="colorList"></div>
+    </div>
+    <div class="section">
+        <img class="main-image" src="img/image4.jpg">
+        <div id="colorList"></div>
+    </div>
+    <script src="src/color-thief.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script>
+        (function($){
+            $(document).ready(function(){
+                var colorThief = new ColorThief();
+                var sections = $('.section');
+                sections.each(function(){
+                    var section = $(this);
+                    var img = section.find("img");
+                    var colorList = section.find("#colorList");
+                    var mainColor = colorThief.getColor(img[0]);
+
+                    var color = "rgb("+mainColor[0] + "," + mainColor[1] + "," + mainColor[2] + ")";
+                    img.parent().css("background-color",color);
+
+                    var palette = colorThief.getPalette(img[0], 10);    
+                    for(var index = 0; index < palette.length; index++){
+                        var color = "rgb("+palette[index][0] + "," + palette[index][1] + "," + palette[index][2] + ")";
+                        colorList.append("<span class='color-block' style = 'background:"+color+"'></span>")
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+</body>
+</html>
