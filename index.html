@@ -42,19 +42,19 @@
 </head>
 <body>
     <div class="section">
-        <img class="main-image" src="img/image1.jpg">
+        <img class="main-image" data-src="img/image1.jpg">
         <div id="colorList"></div>
     </div>
     <div class="section">
-        <img class="main-image" src="img/image2.jpg">
+        <img class="main-image" data-src="img/image2.jpg">
         <div id="colorList"></div>
     </div>
     <div class="section">
-        <img class="main-image" src="img/image3.jpg">
+        <img class="main-image" data-src="img/image3.jpg">
         <div id="colorList"></div>
     </div>
     <div class="section">
-        <img class="main-image" src="img/image4.jpg">
+        <img class="main-image" data-src="img/image4.jpg">
         <div id="colorList"></div>
     </div>
     <script src="src/color-thief.js"></script>
@@ -68,16 +68,19 @@
                     var section = $(this);
                     var img = section.find("img");
                     var colorList = section.find("#colorList");
-                    var mainColor = colorThief.getColor(img[0]);
+                    img[0].onload = function(){
+                         var mainColor = colorThief.getColor(img[0]);
 
-                    var color = "rgb("+mainColor[0] + "," + mainColor[1] + "," + mainColor[2] + ")";
-                    img.parent().css("background-color",color);
+                        var color = "rgb("+mainColor[0] + "," + mainColor[1] + "," + mainColor[2] + ")";
+                        img.parent().css("background-color",color);
 
-                    var palette = colorThief.getPalette(img[0], 10);    
-                    for(var index = 0; index < palette.length; index++){
-                        var color = "rgb("+palette[index][0] + "," + palette[index][1] + "," + palette[index][2] + ")";
-                        colorList.append("<span class='color-block' style = 'background:"+color+"'></span>")
+                        var palette = colorThief.getPalette(img[0], 10);    
+                        for(var index = 0; index < palette.length; index++){
+                            var color = "rgb("+palette[index][0] + "," + palette[index][1] + "," + palette[index][2] + ")";
+                            colorList.append("<span class='color-block' style = 'background:"+color+"'></span>")
+                        }   
                     }
+                    img.attr("src", img.data("src"));
                 });
             });
         })(jQuery);
